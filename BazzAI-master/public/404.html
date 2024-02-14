@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>The page you were looking for doesn't exist (404)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Gravitas+One|Poppins:100,200,300,400,500,600,700,800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Berkshire+Swash&family=Dancing+Script&family=Pompiere&display=swap');
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    .error-page {
+      background-image: linear-gradient(90deg,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.8) 100%), url("/images/background-image.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+    }
+
+    .container {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      height: 100vh;
+    }
+
+    .container h1 {
+      font-size: 130px;
+      color: pink;
+      line-height: 1em;
+      letter-spacing: -0.08em;
+      transition: all 0.2s ease-in-out;
+      text-shadow: 0 1px 0 #ef3e17, 0 2px 0 #ec3810, 0 3px 0 #e3360f, 0 4px 0 #d9330f, 0 5px 0 #cf310e, 0 6px 0 #c62f0d, 0 7px 0 #bc2d0d, 0 8px 0 #b32a0c, 0 0 5px rgba(252, 46, 0, 0.05), 0 -1px 3px rgba(252, 46, 0, 0.2), 0 9px 9px rgba(252, 46, 0, 0.3), 0 12px 12px rgba(252, 46, 0, 0.3), 0 15px 15px rgba(252, 46, 0, 0.3);
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .container h2 {
+      font-family: "Gravitas One", "Helvetica", "sans-serif";
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 1.2;
+      color: white;
+      text-shadow: 2px 2px 0px #E74F6A;
+      scroll-behavior: smooth !important;
+      box-sizing: border-box;
+      text-align: center;
+      margin-left: 250px;
+      margin-right: 250px;
+      margin-top: -40px;
+
+    }
+
+    .home-page-buttons-container {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .magic-button {
+      background: linear-gradient(90deg, #E74F6A 0%, #ffc0cb 100%);
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
+      border: none;
+
+      font-weight: 500;
+      font-size: 24px;
+
+      color: #ffffff;
+
+      margin-top: 50px;
+      padding: 35px 50px;
+      transition: background 0.2s ease-in-out;
+
+      animation-name: jump;
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+
+      text-decoration: none;
+      font-family: "poppins";
+    }
+
+
+
+    .magic-button:hover {
+      background: linear-gradient(180deg, #e74f6a 0%, pink 100%);
+      color: white;
+      font-weight: 600;
+      box-shadow: 1px 4px 12px rgba(228, 28, 28, 1);
+    }
+
+    @keyframes jump {
+     0% {
+      transform: translateY(0);
+     }
+     50% {
+      transform: translateY(-20px);
+     }
+     100% {
+      transform: translateY(0);
+     }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="error-page d-flex flex-column justify-content-center align-items-center min-vh-100 bg-dark">
+    <div class="container">
+      <h1>Oops! Page Not Found (404)</h1>
+      <h2 class="text-center font-weight-bold mb-0">The page you are looking for could not be found. It may have been
+        moved, deleted, or never existed.</h2>
+      <div class="home-page-buttons-container">
+        <a class="magic-button" href="/">Back To The Homepage</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+.trailer {
+  position: relative;
+  height: 20%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (change as needed) */
+  border-radius: 15px;
+  border: 1px solid #ebebeb;
+  overflow: hidden;
+}
+
+.trailer iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* CSS class for the sticky poster */
+.sticky-poster {
+  position: sticky;
+  top: 95px; /* Adjust the top position as needed */
+}
+
+.sticky-poster img {
+  width: 100%;
+  border-radius: 15px;
+  border: 1px solid #ebebeb;
+}
+
+.genre-button {
+  text-decoration: none;
+  background: transparent;
+  border-radius: 20px;
+  border: 1px white solid;
+
+  font-weight: 400;
+  font-size: 20px;
+
+  color: #ffffff;
+
+  padding: 10px 30px;
+  transition: background 0.2s ease-in-out;
+
+  &:hover {
+    background: #1a1a1a;
+  }
+}
+.add-button {
+  text-decoration: none;
+  background: transparent;
+  border-radius: 15px;
+  border: 1px white solid;
+  width: 100%;
+  font-weight: 400;
+  font-size: 18px;
+  color: #ffffff;
+  text-align: center;
+
+  padding: 10px 30px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: linear-gradient(180deg, #e74f6a 0%, pink 100%);
+    color: white;
+
+    box-shadow: 1px 4px 12px rgba(228, 28, 28, 1);
+  }
+
+  &-is-add {
+    &:hover {
+      background: transparent;
+      color: white;
+      font-weight: 400;
+      box-shadow: none;
+    }
+  }
+
+  &-log-out {
+    margin: 1rem 0;
+    padding: 1rem 2rem;
+    width: unset;
+  }
+}
+
+.watch-button {
+  background: transparent;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 12px;
+  width: 100%;
+  color: #ffffff;
+  transition: background 0.2s ease-in-out;
+  text-align: center;
+  &:hover {
+    font-weight: 500;
+    color: #ffffff;
+  }
+}
+
+.streaming-logo2 {
+  width: 80px;
+  height: 50px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+  &:hover {
+    filter: grayscale(0%);
+    scale: 1.2;
+  }
+}
+
+.section {
+  border: #0e0e0e 1px solid;
+  background-color: transparent;
+  border-radius: 20px;
+  display: flex;
+  margin: 20px 0;
+  align-items: center;
+  &:hover .streaming-logo2 {
+    background-color: rgba(0, 0, 0, 0.8);
+    filter: grayscale(0%);
+  }
+}
+
+.streaming-category {
+  align-items: start;
+}
+
+.section p {
+  margin: 0;
+  // font-size: 25px;
+  font-weight: bold;
+  width: 100px; /* Adjust the width as needed */
+}
+
+.section .d-flex {
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust the gap between logos */
+}
+
+.section .d-flex .platform {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  text-align: left; /* Center the text horizontally */
+  gap: 20px;
+}
+

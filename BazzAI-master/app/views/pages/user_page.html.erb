@@ -1,0 +1,123 @@
+<%= render "shared/navbar" %>
+<div class="min-vh-100 w-100">
+  <% if @querys.length > 0  %>
+    <div class="d-flex align-items-center justify-content-center flex-column container min-vh-100 w-100 p-0">
+      <div class="container d-flex flex-column w-100 position-relative">
+        <div data-controller="cards-slider" class="d-flex align-items-center justify-content-start overflow-hidden w-100 gap-3 py-4">
+          <button data-action="click->cards-slider#leftSlide" class="left-button slider-button" disabled="true"><%= '<' %></button>
+          <div data-cards-slider-target="slide" class="d-flex align-items-center justify-content-start gap-3 py-4 position-relative" style="transform: translateX(0px);">
+            <% @querys.each_with_index do |query,index| %>
+              <a href="#query<%= query.id %>" class="clash-card barbarian">
+              <% @image = Recommendation.find(query.recommendation_ids[0]).image %>
+                <div class="clash-card__image clash-card__image--barbarian w-100" style="position: relative; align-items: center; display: flex; justify-content: center; flex-direction: column; height: 230px; margin-bottom: 35px; border-top-left-radius: $border-radius-size; border-top-right-radius: $border-radius-size; background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('<%= @image %>'); background-size: cover;">
+                  <%= image_tag "bazzy_avatar.png", alt: "Bazzy", style: "width: 300px; position: absolute;" %>
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-start" style="min-height:200px">
+                  <div class="clash-card__level clash-card__level--barbarian w-100">Search <%= index + 1 %></div>
+                  <div class="clash-card__unit-name text-capitalize w-100"><%= query.medium ? query.medium : "Movie / TV Show" %></div>
+                  <div class="clash-card__unit-description w-100">
+                    <div>
+                      <div class="clash-card__level clash-card__level--barbarian w-100"></div>
+                      <div class="d-flex flex-wrap my-1 align-items-start justify-content-center gap-1">
+                        <% if query.genre.split(', ').length > 0 %>
+                          <% query.genre.split(', ').each_with_index do |genre, index| %>
+                            <% if index < 2 %>
+                              <span class="genre-button-query">
+                                <%= genre %>
+                              </span>
+                            <% end %>
+                          <% end %>
+                        <% else %>
+                          <span class="genre-button-query">
+                            No Genres
+                          </span>
+                        <% end %>
+                      </div>
+                    </div>
+                    <br>
+                    <div>
+                      <div class="clash-card__level clash-card__level--barbarian w-100"></div>
+                      <div class="d-flex flex-wrap my-1 align-items-center justify-content-center gap-2">
+                        <span class="">
+                          <%= query.year_after %>
+                        </span>
+                        -
+                        <span class="">
+                          <%= query.year_before %>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="clash-card__unit-stats clash-card__unit-stats--barbarian clearfix w-100">
+                  <div class="one-third">
+                    <div class="stat"><%= query.time %></div>
+                    <div class="stat-value">Minutes</div>
+                  </div>
+                  <div class="one-third">
+                    <div class="stat"><%= query.intensity %>/10</div>
+                    <div class="stat-value">Intensity</div>
+                  </div>
+                  <div class="one-third no-border">
+                    <div class="stat"><%= query.novelty %>/10</div>
+                    <div class="stat-value">Novelty</div>
+                  </div>
+                </div>
+              </a>
+            <% end %>
+          </div>
+          <button data-action="click->cards-slider#rightSlide" class="right-button slider-button"><%= '>' %></button>
+        </div>
+      </div>
+      <h3>Your Watch List:</h3>
+      <hr/>
+      <div class="container d-flex flex-column w-100 position-relative">
+        <div data-controller="cards-slider" class="d-flex align-items-center justify-content-start overflow-hidden w-100 gap-3 py-4">
+          <button data-action="click->cards-slider#leftSlide" class="left-button slider-button" disabled="true"><%= '<' %></button>
+          <div data-cards-slider-target="slide" class="d-flex align-items-center justify-content-start gap-3 py-4 position-relative" style="transform: translateX(0px);">
+            <% @watch_list.reverse.each do |movie| %>
+              <%= render "pages/movie_card", movie: movie, watch_list: true %>
+            <% end %>
+          </div>
+          <button data-action="click->cards-slider#rightSlide" class="right-button slider-button"><%= '>' %></button>
+        </div>
+      </div>
+      <h3>Your Previous Recommendations:</h3>
+      <hr/>
+      <div class="container d-flex flex-column w-100 position-relative gap-3">
+        <% @querys.reverse.each_with_index do |query,index| %>
+          <h3>Bazzy's Picks: <%= @querys.length - index %> of <%= @querys.length %></h3>
+          <hr/>
+          <div class="prompt-container">
+            <div class="bazzy-display">
+              <%= image_tag "bazzy_avatar.png", alt: "Show case of BazzAI", id: "bazzy-index" %>
+            </div>
+            <div class="typewriter-container">
+              <div style="font-family: 'poppins'; font-size: 18px">
+                <%= @display_prompts[index] %>
+              </div>
+            </div>
+          </div>
+          <div data-controller="cards-slider" class="d-flex align-items-center justify-content-start overflow-hidden w-100 gap-3 py-4">
+            <button data-action="click->cards-slider#leftSlide" class="left-button slider-button" disabled="true"><%= '<' %></button>
+            <div id="query<%= query.id %>" data-cards-slider-target="slide" class="d-flex align-items-center justify-content-start gap-3 py-4 position-relative" style="transform: translateX(0px);">
+              <% @recommendations.each do |recommendation| %>
+                <% if recommendation.query_id == query.id %>
+                  <%= render "pages/movie_card", movie: recommendation, watch_list: false %>
+                <% end %>
+              <% end %>
+            </div>
+            <button data-action="click->cards-slider#rightSlide" class="right-button slider-button"><%= '>' %></button>
+          </div>
+          <%= link_to "View query page", "/search/#{query.id}/recommendations", class: 'add-button add-button-log-out' %>
+        <% end %>
+      </div>
+      <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "add-button add-button-log-out" %>
+    </div>
+  </div>
+<% else %>
+  <div class="container p-0">
+    <h1>No searches yet</h1>
+  </div>
+<% end %>
+</div>

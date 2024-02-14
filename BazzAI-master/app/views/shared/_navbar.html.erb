@@ -1,0 +1,32 @@
+<div class="main-nav-bar">
+  <div class="container container-fluid d-flex justify-content-between align-items-center container-nav-bar">
+    <div class="d-flex justify-content-center align-items-center gap-3">
+      <%= link_to search_path, class: "text-decoration-none" do %>
+        <h1 class="logo1 font-size-30">Movie Mate</h1>
+      <% end %>
+      <% if action_name == 'show' %>
+        <%= link_to :back, class: "back-button" do %>
+          <i class="fa-solid fa-arrow-left"></i>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="" id="navbarSupportedContent">
+      <ul class="d-flex justify-content-center align-items-center gap-3 mb-0 list-style-none">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <%= link_to watchlist_path, data: {turbo_method: :get}, class: "avatar" do %>
+              <%= image_tag "bazzy_avatar.png", class: "avatar", alt: "dropdown menu" %>
+            <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Log in", new_user_session_path, class: "login-button" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sign up", new_user_registration_path, class: "sign-up-button" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

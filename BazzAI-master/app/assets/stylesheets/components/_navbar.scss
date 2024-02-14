@@ -1,0 +1,112 @@
+.main-nav-bar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000000;
+  font-size: 14px;
+
+  background: rgba(0, 0, 0, 0.8);
+  mix-blend-mode: normal;
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  border-bottom: 0.5px solid #d0d0d08e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.container-nav-bar {
+  padding: 15px 0;
+  width: 100%;
+
+}
+
+.font-size-30 {
+  font-size: 30px;
+}
+
+.list-nav-bar-links {
+  font-weight: 600;
+
+  a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+
+.login-button {
+  color: #ffffff;
+
+  font-weight: 600;
+
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-button:hover {
+  color: $pink;
+}
+
+.sign-up-button {
+  color: #ffffff;
+  padding: 12px 24px;
+
+  font-weight: 600;
+
+  background: linear-gradient(144.91deg, $pink 19.04%, $yellow 93.8%);
+  border-radius: 9999px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.sign-up-button:hover {
+  background: linear-gradient(289.37deg, $pink 0%, $yellow 100%);
+  color: #ffffff;
+}
+
+.logo {
+  width: 200px;
+}
+
+.back-button {
+  color: #ffffff;
+  padding: 6px 12px;
+  font-weight: 800;
+  margin-left: 10px;
+  // background: linear-gradient(144.91deg, $pink 19.04%, $yellow 93.8%);
+  border-radius: 9999px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 900;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    border: #ffffff 1px solid;
+    color: #ffffff;
+    font-weight: 600;
+  }
+}
+
+.new-search-button {
+  color: #ffffff;
+  padding: 6px 12px;
+  font-weight: 400;
+  border-radius: 9999px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: 900;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    font-weight: 600;
+    color: #ffffff;
+  }
+}

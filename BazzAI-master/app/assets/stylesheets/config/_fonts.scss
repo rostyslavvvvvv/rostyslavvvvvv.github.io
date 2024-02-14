@@ -1,0 +1,98 @@
+// Import Google fonts
+@import url('https://fonts.googleapis.com/css?family=Gravitas+One|Poppins:100,200,300,400,500,600,700,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Berkshire+Swash&family=Dancing+Script&family=Pompiere&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300;400;500;600;700;800;900&display=swap');
+
+// Define fonts for body and headers
+$body-font: "Poppins", "Helvetica", "sans-serif";
+$headers-font: "Gravitas One", "Helvetica", "sans-serif";
+
+// Set color, shadow and letter-spacing for headers
+$pink: #E74F6A;
+$orange: #F25E3D;
+$beige: #F2D0A7;
+$yellow: pink;
+$sec_yellow: #EFC956;
+
+h2, h3, h4, h5, h6 {
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+
+
+
+// Primary Logo
+
+$LIGHTING_FLOOR: 1;
+$LIGHTING_CEIL: 2;
+$LIGHTING_FLAT: 3;
+
+@mixin text3d(
+  $primary,
+  $depth: 5,
+  $shadowsteps: 5,
+  $shadowincrementer: 3px,
+  $shadowopacity: .5,
+  $orange: $orange,
+  $lighting: $LIGHTING_CEIL) {
+  $predefinedShadows: (
+    0 0 5px rgba($orange, .05),
+    0 -1px 3px rgba($orange, .2),
+    0 3px 5px rgba($orange, .2));
+  $value: ();
+  @for $i from 1 through $depth {
+    $num: $i + px;
+    $hueadjust: $i;
+    @if($lighting == $LIGHTING_FLOOR) {
+      $hueadjust: ($i * 2 - $depth - 5) * 1%;
+    } @elseif($lighting == $LIGHTING_CEIL) {
+      $hueadjust: -($i*2 + $depth - 10) * 1%;
+    } @elseif($lighting == $LIGHTING_FLAT) {
+      $hueadjust: -$depth * 1%;
+    }
+    $colour: adjust-color($primary, $lightness: $hueadjust);
+    $theShadow: 0 $num 0 $colour;
+    $value: append($value, $theShadow, comma);
+  }
+
+  @for $i from 1 through $shadowsteps {
+    @if($i >= length($predefinedShadows)) {
+      $dist: $i * $shadowincrementer;
+      $value: append($value, 0 $dist $dist rgba($orange, $shadowopacity));
+    } @else {
+      $value: append($value, nth($predefinedShadows, $i));
+    }
+  }
+
+  text-shadow: $value;
+}
+
+.logo1 {
+  font-size: 200px;
+  color: $yellow;
+  line-height:1em;
+  letter-spacing: -0.08em;
+  transition: all 0.2s ease-in-out;
+  @include text3d(
+    adjust-color($orange, $lightness: -8%),
+    $depth: 8,
+    $orange: adjust-color($orange, $lightness: -10%, $saturation: +20%),
+    $shadowopacity: .3);
+}
+
+// Alternative logo - not used right now
+
+.logo2 {
+	text-transform: uppercase;
+	line-height: 1;
+	margin: 0;
+  letter-spacing: -0.05em;
+  color: $yellow;
+	text-shadow:
+			-1px -1px 0 $pink, 1px -1px 0 $pink, -1px 1px 0 $pink, 1px 1px 0 $pink,
+			1px 0px 0px $orange, 0px 1px 0px $orange, 2px 1px 0px $orange, 1px 2px 0px $orange, 3px 2px 0px $orange, 2px 3px 0px $orange, 4px 3px 0px $orange, 3px 4px 0px $orange, 5px 4px 0px $orange,
+			3px 5px 0px $pink, 6px 5px 0px $pink,
+			-1px 2px 0 black, 0 3px 0 $pink, 1px 4px 0 $pink, 2px 5px 0px $pink,
+			2px -1px 0 $pink, 3px 0 0 $pink, 4px 1px 0 $pink, 5px 2px 0px $pink, 6px 3px 0 $pink, 7px 4px 0 $pink;
+}

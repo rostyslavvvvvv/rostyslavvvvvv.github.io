@@ -1,0 +1,232 @@
+<%= render "shared/navbar" %>
+<div class="container p-0" data-controller="fake-background-job" data-fake-background-job-target="content">
+  <div class="main-container">
+    <br>
+    <%# <h5>Guide Bazzy with your mood, available time, and genre preferences.</h5> %>
+    <h5>Let Bazzy curate your perfect movie or TV show - all in a few clicks</h5>
+    <br>
+    <hr class="divider">
+    <%= form_with(model: @query, url: search_path, method: :post, data: {action: "submit->fake-background-job#fakeSubmit"}) do |form| %>
+      <%# Medium %>
+      <h5>Choose a medium:</h5>
+      <br>
+      <%= form.fields_for :medium do |medium_form| %>
+        <div class="row" data-controller="medium-selection" data-medium-selection-target="container">
+          <div class="tag-item col-md-2 mb-4">
+            <%= form.radio_button :medium, "Movie", { class: "tag-selector", style: "display: none;"} %>
+            <%= form.label :medium_movie, "Movie" %>
+          </div>
+          <div class="tag-item col-md-2 mb-4">
+            <%= form.radio_button :medium, "TV Show", { class: "tag-selector", style: "display: none;"} %>
+            <%= form.label :medium_tv_show, "TV Show" %>
+          </div>
+        </div>
+      <% end %>
+      <br>
+      <%# Time %>
+      <h5>Got time to spare?</h5>
+      <br>
+      <div class="form-group d-flex flex-column flex-md-row align-items-center gap-3 w-100" data-controller="slider">
+        <%= form.range_field :time, min: 15, max: 120, step: 5, class: "custom-range", data: { action: "change->slider#updateMinValue", slider_target: "input" }, name: "query[time]" %>
+        <div>
+        <span data-slider-target="output" class="text-center" style="display: inline-block"></span>
+        <span></span>
+        </div>
+      </div>
+      <hr class="divider">
+      <%# Audience %>
+      <br>
+      <h5>Who's joining the fun?</h5>
+      <br>
+      <%= form.fields_for :medium do |medium_form| %>
+        <div class="row" data-controller="medium-selection" data-medium-selection-target="container">
+          <div class="tag-item col-md-2 mb-4">
+            <%= form.radio_button :audience, "Just me", { class: "tag-selector", style: "display: none;"} %>
+            <%= form.label :audience_just_me, "Just me" %>
+          </div>
+          <div class="tag-item col-md-2 mb-4">
+            <%= form.radio_button :audience, "Couple", { class: "tag-selector", style: "display: none;"} %>
+            <%= form.label :audience_couple, "Partner" %>
+          </div>
+          <div class="tag-item col-md-2 mb-4">
+            <%= form.radio_button :audience, "Family", { class: "tag-selector", style: "display: none;"} %>
+            <%= form.label :audience_family, "Family" %>
+          </div>
+        </div>
+      <% end %>
+      <hr class="divider">
+      <%# Genre %>
+      <h5> Favor Any Genres? </h5>
+      <br>
+      <%= form.fields_for :genre do |genre_form| %>
+        <div class="row-g row"  data-controller="genre-selection" data-genre-selection-target="container">
+          <% @genres.each_slice(6) do |genres_row| %>
+            <div class="row-g row">
+              <% genres_row.each do |genre| %>
+                <div class="tag-item col-md-2 mb-4" data-controller="genre-selection" data-genre-selection-target="checkbox">
+                  <%= genre_form.check_box genre.to_sym, { class: "tag-selector", style: "display: none;" , data: { action: "click->genre-selection#updateSelectedCount" }}, genre %>
+                  <%= genre_form.label genre %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <%# Year %>
+      <h5>Publishing Year</h5>
+      <div class="d-flex">
+        <div class="form-group w-25">
+          <%= form.label :year_from, "From:" %>
+          <%= form.number_field :year_after, value: 1950, in: 1925..2022, step: 1, class: 'form-control', placeholder: 1950 %>
+        </div>
+        <div class="form-group w-25">
+          <%= form.label :year_before, "To:" %>
+          <%= form.number_field :year_before, value: 2022, in: 1925..2022, step: 1, class: 'form-control', placeholder: 2023 %>
+        </div>
+      </div>
+      <hr class="divider">
+      <%# Mood Status Quo%>
+      <h5>How do you feel?</h5>
+      <br>
+      <div class=" w-100">
+        <div class="d-flex align-items-center justify-content-start gap-4">
+          <h6>Current Mood</h6>
+          <div class="help-icon mb-2">
+            <i class="fa-solid fa-circle-question"></i>
+            <div class="help-text">Tell us how you're feeling on a happiness scale going from "Miserable" to "Over the Moon"</div>
+          </div>
+        </div>
+        <div class="form-group d-flex flex-column flex-md-row align-items-center gap-3 w-100" data-controller="slider">
+          <%= form.range_field :happiness, min: 0, max: 10, data: { action: "change->slider#updateValue", slider_target: "input" } %>
+          <div>
+            <span data-slider-target="output" class="text-center" style="display: inline-block"></span>
+            <span>/ 10</span>
+          </div>
+        </div>
+      </div>
+      <%# Mood Desired%>
+      <div class=" w-100">
+        <div class="d-flex align-items-center justify-content-start gap-4">
+          <h6>Desired Mood</h6>
+          <div class="help-icon mb-2">
+            <i class="fa-solid fa-circle-question"></i>
+            <div class="help-text">Tell us how you would like to feel on a happiness scale going from "Miserable" to "Over the Moon"</div>
+          </div>
+        </div>
+        <div class="form-group d-flex flex-column flex-md-row align-items-center gap-3 w-100" data-controller="slider">
+          <%= form.range_field :desired_happiness, min: 0, max: 10, data: { action: "change->slider#updateValue", slider_target: "input" } %>
+          <div>
+            <span data-slider-target="output" class="text-center" style="display: inline-block"></span>
+            <span>/ 10</span>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <%# Intensity %>
+      <div class=" w-100">
+        <div class="d-flex align-items-center justify-content-start gap-4">
+          <h6>Intensity</h6>
+          <div class="help-icon mb-2">
+            <i class="fa-solid fa-circle-question"></i>
+            <div class="help-text">Tell us how much you want to focus on a scale of 1 to 10</div>
+          </div>
+        </div>
+        <div class="form-group d-flex flex-column flex-md-row align-items-center gap-3 w-100" data-controller="slider">
+          <%= form.range_field :intensity, min: 0, max: 10, data: { action: "change->slider#updateValue", slider_target: "input" } %>
+          <div>
+            <span data-slider-target="output" class="text-center" style="display: inline-block"></span>
+            <span>/ 10</span>
+          </div>
+        </div>
+      </div>
+      <%# Novelty %>
+      <div class=" w-100">
+        <div class="d-flex align-items-center justify-content-start gap-4">
+          <h6>Novelty</h6>
+          <div class="help-icon mb-2">
+            <i class="fa-solid fa-circle-question"></i>
+            <div class="help-text">Tell us how experimental you want our suggestion to be on a scale of 1 to 10</div>
+          </div>
+        </div>
+        <div class="form-group d-flex flex-column flex-md-row align-items-center gap-3 w-100" data-controller="slider">
+          <%= form.range_field :novelty, min: 0, max: 10, data: { action: "change->slider#updateValue", slider_target: "input" } %>
+          <div>
+            <span data-slider-target="output" class="text-center" style="display: inline-block"></span>
+            <span>/ 10</span>
+          </div>
+        </div>
+      </div>
+      <%# Recent Movies %>
+      <hr class="divider">
+      <h5>Something similar to: </h5>
+      <%# Movie search start %>
+      <div data-controller="movie-search">
+        <div class="form-group">
+          <%= form.label :recent_movie, "Search for a movie:" %>
+          <%= form.text_field :search_movie, class: 'form-control', data: { action: 'keyup->movie-search#handleInput', movie_search_target: 'search' } %>
+        </div>
+        <br>
+        <div class="search-boxes-container" data-movie-search-target="results">
+        </div>
+        <br>
+        <div class="search-boxes-container select-movies">
+          <div class="search-boxes-container-results-card" data-movie-search-target="selectedOne" data-action="click->movie-search#removeMovie" id="selected-one">
+            <%= form.text_field :recent_movie1, value: "", class: "d-none", data: { target: "movie-search.recentOne" } %>
+            <img src="https://cdn.discordapp.com/attachments/1105433122998325278/1116395162105552946/bazzy_avatar.png" class="search-boxes-container-results-card-image" />
+            <p class="search-boxes-container-results-card-infos">
+              Think of a movie or Tv show
+            </p>
+          </div>
+          <div class="search-boxes-container-results-card" data-movie-search-target="selectedTwo" data-action="click->movie-search#removeMovie" id="selected-two">
+            <%= form.text_field :recent_movie2, value: "", class: "d-none", data: { target: "movie-search.recentTwo" } %>
+            <img src="https://cdn.discordapp.com/attachments/1105433122998325278/1116395162105552946/bazzy_avatar.png" class="search-boxes-container-results-card-image" />
+            <p class="search-boxes-container-results-card-infos">
+              Just start to type...
+            </p>
+          </div>
+          <div class="search-boxes-container-results-card" data-movie-search-target="selectedThree" data-action="click->movie-search#removeMovie" id="selected-three">
+            <%= form.text_field :recent_movie3, value: "", class: "d-none", data: { target: "movie-search.recentThree" } %>
+            <img src="https://cdn.discordapp.com/attachments/1105433122998325278/1116395162105552946/bazzy_avatar.png" class="search-boxes-container-results-card-image" />
+            <p class="search-boxes-container-results-card-infos">
+              Choose up to three!
+            </p>
+          </div>
+        </div>
+      </div>
+      <%# Movie search end %>
+      <br>
+      <%# Streaming Platforms %>
+      <hr class="divider">
+      <h5>Where do you want to watch?</h5>
+      <br>
+      <%= form.fields_for :streaming_platform do |streaming_platform_form| %>
+        <div class="row">
+          <div class="section">
+            <div class="row">
+              <% Query::STREAMING_PLATFORMS.each do |streaming_platform| %>
+                <div class="streaming-item col-md-1 mb-4">
+                  <%= streaming_platform_form.check_box streaming_platform.to_sym, { class: "streaming-selector d-none", disabled: false}, streaming_platform %>
+                  <label for="query_streaming_platform_<%= streaming_platform %>">
+                    <%= image_tag "#{streaming_platform}.png", class: "streaming-logo" %>
+                  </label>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%# Other %>
+      <hr class="divider">
+      <h5>Anything else we should know?</h5>
+      <p style="font-size: 20px;">Feel free to write your heart out</p>
+      <br>
+      <div class="form-group">
+        <%= form.text_area :other, class: "form-text-area" %>
+      </div>
+      <hr class="divider">
+      <div class= "mb-4">
+        <%= form.submit "Search", class: "search-button" %>
+      </div>
+    <% end %>
+  </div>
+</div>

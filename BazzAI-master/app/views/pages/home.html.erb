@@ -1,0 +1,49 @@
+<div class="home-page d-flex flex-column justify-content-center align-items-center vh-100 bg-dark">
+  <div class="container home-page-container">
+    <h1 class="logo1 font-size-70 mt-3">Movie Mate</h1>
+    <h2 class="text-center font-weight-bold mb-0">Finally Recommendations That Don't Suck</h2>
+    <div class="home-page-buttons-container">
+      <%= link_to "Find Your Match", search_path, class: "magic-button text-decoration-none mb-4" %>
+    </div>
+    <div class="transparent-box">
+      <%= image_tag "bazzy_avatar.png", alt: "Image 1", class: "bazzy" %>
+      <div class= "left-container">
+        <button class="hover-button text-center">Set your preferences</button>
+        <button class="hover-button text-center">Let Bazzy do the work</button>
+        <button class="hover-button text-center">AI magic</button>
+        <button class="hover-button text-center">Sit back and enjoy</button>
+      </div>
+      <div class="right-container">
+        <div class="background-container d-flex flex-column align-items-center">
+          <h1 class= "pt-3">Bazzy's picks</h1>
+          <hr class="divider">
+          <div class="movie-box">
+            <button class="close-button">&times;</button>
+            <div class="content">
+              <img src="https://lwlies.com/wp-content/uploads/2016/06/TheWindRisesPoster-900x0-c-default.jpg" alt="Image 1">
+              <div class="info" data-controller="typewriter">
+                <p class="h7" data-typewriter-target="text" data-typewriter-delay="0">The Wind Rises (2013)</p>
+                <p class= "p" data-typewriter-target="text" data-typewriter-delay="500">A look at the life of Jiro Horikoshi, the man who designed Japanese fighter planes during World War II.</p>
+                <button class="button" data-typewriter-target="text" data-typewriter-delay="2800">Learn more</button>
+                <button class="button" data-typewriter-target="text" data-typewriter-delay="2900">More like this</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-box">
+            <button class="close-button">&times;</button>
+            <div class="content">
+              <img src="https://upload.wikimedia.org/wikipedia/en/0/0b/Your_Name_poster.png" alt="Image 2">
+              <div class="info" data-controller="typewriter">
+                <p class="h7" data-typewriter-target="text" data-typewriter-delay="3000">Your Name. (2016)</p>
+                <p class= "p" data-typewriter-target="text" data-typewriter-delay="3200">Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.</p>
+                <button class="button" data-typewriter-target="text" data-typewriter-delay="5400">Learn more</button>
+                <button class="button" data-typewriter-target="text" data-typewriter-delay="5500">More like this</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

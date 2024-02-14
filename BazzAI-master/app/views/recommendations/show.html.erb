@@ -1,0 +1,164 @@
+<%= render "shared/navbar" %>
+<div class="container my-4 min-vh-100 align-content-center">
+  <div class="row">
+    <% unless @data['result']['youtubeTrailerVideoId'].nil? %>
+      <div class="col-lg-12 mb-4">
+        <div class="banner trailer">
+          <div class="trailer-content">
+            <iframe src="https://www.youtube.com/embed/<%=@data['result']['youtubeTrailerVideoId']%>" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="col-lg-8">
+      <div class="recommendation-content">
+        <h1><%= "#{@recommendation.movie_name} (#{@recommendation.year})" %></h1>
+        <br>
+        <p>
+          <strong>
+            <%= link_to image_tag("https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/1150px-IMDB_Logo_2016.svg.png?20200406194337", alt: "IMDb Logo", class: "imdb-logo", style: "width: 10%;"), "https://www.imdb.com/title/#{@recommendation.imdbID}", target: "_blank" %>
+          </strong>
+        </p>
+        <br>
+        <p style="font-size: 25px;"><strong>Genres:</strong></p>
+        <div class="d-flex flex-wrap my-4">
+          <% @recommendation.genre.split(',').each do |genre| %>
+            <div class="p-1">
+              <%= content_tag :span, genre.strip, class: "genre-button" %>
+            </div>
+          <% end %>
+        </div>
+        <p style="font-size: 25px;"><strong>Runtime:</strong> <%= @recommendation.runtime %></p>
+        <p style="font-size: 25px;"><strong>imdB Score:</strong>
+          <% @recommendation.imdb_score.to_i.times do %>
+            ⭐️
+          <% end %>
+          <% (10 - @recommendation.imdb_score.to_i).times do %>
+            ☆
+          <% end %>
+          (<%= @recommendation.imdb_score %> out of 10)
+        </p>
+        <p style="font-size: 25px;"><strong>Synopsis:</strong> <%= @recommendation.synopsis %></p>
+        <p style="font-size: 25px;"><strong>Director(s):</strong> <%= @recommendation.director %></p>
+        <p style="font-size: 25px;"><strong>Writer(s):</strong> <%= @recommendation.writer %></p>
+        <p style="font-size: 25px;"><strong>Actors:</strong> <%= @recommendation.actors %></p>
+        <p style="font-size: 25px;"><strong>Awards:</strong> <%= @recommendation.awards %></p>
+        <div class="d-flex flex-column">
+          <p style="font-size: 25px;"><strong>Available on:</strong></p>
+          <% streaming_info = @data['result']['streamingInfo']['de'] %>
+          <% if streaming_info.present? %>
+            <% subscriptions = [] %>
+            <% rentals = [] %>
+            <% purchases = [] %>
+            <% subscription_platforms = [] %>
+            <% rental_platforms = [] %>
+            <% purchase_platforms = [] %>
+            <% streaming_info.each do |platform, options| %>
+              <% if options.any? { |option| option['type'] == 'subscription' } %>
+                <% subscriptions << platform %>
+              <% end %>
+              <% if options.any? { |option| option['type'] == 'rent' } %>
+                <% rentals << platform %>
+              <% end %>
+              <% if options.any? { |option| option['type'] == 'buy' || (option['type'] == 'addon' && platform == 'prime') } %>
+                <% purchases << platform %>
+              <% end %>
+            <% end %>
+            <% if subscriptions.any? %>
+              <div class="section gap-5">
+                <div class="streaming-category">
+                  <p style="font-size: 25px;">Watch:</p>
+                </div>
+                <% streaming_info.each do |platform, options| %>
+                  <% if subscriptions.include?(platform) %>
+                    <% options.each do |option| %>
+                      <% if option['type'] == 'subscription' %>
+                        <% link = option['link'] %>
+                        <% price = option['price'] %>
+                        <% availability_quality = option['quality'] %>
+                        <% availability_text = "Subscription (#{availability_quality}):" %>
+                        <% if link.present? && !rental_platforms.include?(platform) %>
+                          <div class="platform">
+                            <%= link_to image_tag("#{platform}.png", class: 'streaming-logo2'), link, target: "_blank" %>
+                          </div>
+                          <% subscription_platforms << platform %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+            <% if rentals.any? %>
+              <div class="section gap-5">
+                <div>
+                  <p style="font-size: 25px;">Rent:</p>
+                </div>
+                <% streaming_info.each do |platform, options| %>
+                  <% if rentals.include?(platform) %>
+                    <% options.each do |option| %>
+                      <% if option['type'] == 'rent' %>
+                        <% link = option['link'] %>
+                        <% if link.present? && !rental_platforms.include?(platform) %>
+                          <div class="platform">
+                            <%= link_to image_tag("#{platform}.png", class: 'streaming-logo2'), link, target: "_blank" %>
+                          </div>
+                          <% rental_platforms << platform %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+            <% if purchases.any? %>
+              <div class="section gap-5">
+                <div>
+                  <p style="font-size: 25px;">Buy:</p>
+                </div>
+                <% streaming_info.each do |platform, options| %>
+                  <% if purchases.include?(platform) %>
+                    <% options.each do |option| %>
+                      <% if option['type'] == 'buy' || (option['type'] == 'addon' && platform == 'prime') %>
+                        <% link = option['link'] %>
+                        <% if link.present? && !purchase_platforms.include?(platform) %>
+                          <div class="platform">
+                            <%= link_to image_tag("#{platform}.png", class: 'streaming-logo2'), link, target: "_blank" %>
+                          </div>
+                          <% purchase_platforms << platform %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="sticky-poster">
+        <div>
+          <%= link_to image_tag(@recommendation.image, alt: "#{@recommendation.movie_name} Poster"), "https://www.imdb.com/title/#{@recommendation.imdbID}", target: "_blank" %>
+        </div>
+        <div data-controller="add-watch-list" data-add-watch-list-target="text" class="mt-3" style="display: flex">
+          <input type="hidden" value="<%= @recommendation.movie_name %>" data-add-watch-list-target="movie">
+          <% if @watch_list.present? %>
+            <% @watch_list.each do |movie| %>
+              <% if movie.movie_name == @recommendation.movie_name %>
+                <div class="add-button add-button-is-add mt-3">
+                  <a href="/user" class="text-decoration-none">
+                    <p class="m-0 text-white"><%= movie.movie_name %> is on your watch list</p>
+                  </a>
+                </div>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= link_to "Add to your watch list", add_recommendations_to_watch_list_path, remote: true , data: {turbo_method: :post, action: "click->add-watch-list#acceptPopUp"}, class: "add-button" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
